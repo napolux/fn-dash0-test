@@ -98,4 +98,4 @@ Vitest + Testing Library. Coverage focuses on the data-transformation core and t
 - `lib/grouping.test.ts` — grouping by resource, counts, namespace disambiguation.
 - `lib/viewState.test.ts` — URL (de)serialization round-trips.
 - `hooks/useLogs.test.ts` — success/error/refetch/abort with a mocked `fetch`.
-- `components/LogTable.test.tsx`, `components/LogViewer.test.tsx` — row expansion reveals attributes; the toggle switches flat ↔ grouped.
+- `components/__tests__/LogTable.test.tsx`, `components/__tests__/LogViewer.test.tsx` — row expansion reveals attributes; the toggle switches flat ↔ grouped.
