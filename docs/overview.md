@@ -18,6 +18,7 @@ The OTLP Log Viewer is a web app for exploring [OpenTelemetry log records](https
 | Styling | Tailwind CSS (fixed dark theme) |
 | Table | TanStack Table (headless) |
 | Charts | Recharts |
+| Dates | date-fns |
 | Tests | Vitest + Testing Library |
 
 ## Architecture at a glance
