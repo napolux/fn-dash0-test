@@ -23,7 +23,7 @@ interface HistogramProps {
 - Renders one stacked `<Bar>` per **enabled** severity group present in the data — under an active `selectedSeverities` filter, disabled groups drop out of the chart. Stack/legend order follows `SEVERITY_GROUPS`; colors come from [`SEVERITY_STYLES`](../lib/severity.md).
 - **Legend = filter:** each legend entry is a `<button>`. When `onToggleSeverity` is provided, clicking it toggles that severity (via [`toggleSeverity`](../lib/view-state.md)); entries carry `aria-pressed` under an active filter and dim when disabled. Without a handler the entries render disabled (static legend).
 - A **custom tooltip** shows the bucket's time range, total, and a per-severity breakdown.
-- X-axis ticks are formatted clock labels ([`formatClock`](../lib/otlp-transforms.md)) with a min gap; Y-axis is integer counts.
+- X-axis ticks are formatted clock labels ([`formatClock`](../lib/format.md)) with a min gap; Y-axis is integer counts.
 - Empty input renders a "No data to plot" placeholder.
 
 > [`LogViewer`](./log-viewer.md) passes the **unfiltered** logs here so the legend stays a stable, complete control, while the list below shows the filtered result.

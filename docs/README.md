@@ -18,6 +18,7 @@ Each doc follows the same shape: **purpose → responsibilities → API/behavior
 - [Histogram bucketing](./lib/histogram.md) — pure time-bucketing of records.
 - [Grouping](./lib/grouping.md) — grouping records by parent resource (service).
 - [View state & URL contract](./lib/view-state.md) — the serializable view state and future URL-addressable filters.
+- [Date & time formatting](./lib/format.md) — presentational date/time helpers over date-fns.
 
 ### Hooks (`src/hooks`)
 

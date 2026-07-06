@@ -48,9 +48,12 @@ src/
     Toolbar.tsx              # flat/grouped toggle, record count, refresh
     Histogram.tsx            # Recharts severity-stacked bar chart
     LogTable.tsx             # TanStack Table: Severity | Time | Body + expandable rows
-    LogDetails.tsx           # expanded-row content: body + all attributes/metadata
+    LogDetails.tsx           # expanded-row content: body + all attributes/metadata (with copy)
     GroupedLogView.tsx       # collapsible per-service sections (reuses LogTable)
     SeverityBadge.tsx        # color-coded severity pill
+    CopyButton.tsx           # copy-to-clipboard icon button
+    EmptyState.tsx           # reusable empty-view message + action
+    Skeleton.tsx             # loading placeholders (list + histogram)
   hooks/
     useLogs.ts               # fetch /api/logs, flatten, expose {logs, loading, error, refetch}
     useLogViewState.ts       # single owner of view/filter state (URL-swappable seam)
@@ -60,7 +63,7 @@ src/
     grouping.ts              # groupByResource()
     viewState.ts             # LogViewState + (de)serialization + selectLogs()
     severity.ts              # severity ordering + colors (shared by chart & badge)
-    format.ts                # timestamp formatting
+    format.ts                # date/time formatting (over date-fns)
   types/otlp.ts              # hand-written OTLP protobuf-JSON types + FlatLogRecord
 ```
 
@@ -104,5 +107,7 @@ Vitest + Testing Library. Coverage focuses on the data-transformation core and t
 - `lib/__tests__/viewState.test.ts` — URL (de)serialization round-trips, `selectLogs` severity filtering, and `toggleSeverity`.
 - `hooks/__tests__/useLogs.test.ts` — success/error/refetch/abort with a mocked `fetch`.
 - `hooks/__tests__/useLogViewState.test.ts` — deriving state from the URL and writing it back, with mocked `next/navigation`.
-- `components/__tests__/LogTable.test.tsx`, `components/__tests__/LogViewer.test.tsx` — row expansion reveals attributes; the toggle switches flat ↔ grouped.
-- `components/__tests__/Toolbar.test.tsx`, `components/__tests__/Histogram.test.tsx` — the view toggle emits changes; the histogram legend toggles severities.
+- `lib/__tests__/format.test.ts` — the missing-value guards and range joiner (date-fns itself is not re-tested).
+- `components/__tests__/LogTable.test.tsx`, `components/__tests__/LogViewer.test.tsx` — row expansion reveals attributes; the toggle switches flat ↔ grouped; skeleton, no-data, and filtered-empty states.
+- `components/__tests__/Toolbar.test.tsx`, `components/__tests__/Histogram.test.tsx` — the view toggle emits changes; the filtered "N of M" count; the histogram legend toggles severities.
+- `components/__tests__/EmptyState.test.tsx`, `components/__tests__/CopyButton.test.tsx`, `components/__tests__/Skeleton.test.tsx` — empty-view actions, clipboard copy + "Copied" state, and skeleton row counts.
