@@ -7,7 +7,10 @@ interface ToolbarProps {
   onViewModeChange: (mode: ViewMode) => void;
   onRefresh: () => void;
   loading: boolean;
+  /** Number of records currently shown (after filtering). */
   count: number;
+  /** Total number of records before filtering. */
+  total: number;
 }
 
 const MODES: { value: ViewMode; label: string }[] = [
@@ -16,7 +19,18 @@ const MODES: { value: ViewMode; label: string }[] = [
 ];
 
 /** Controls row: flat/grouped toggle, record count, and a refresh action. */
-export function Toolbar({ viewMode, onViewModeChange, onRefresh, loading, count }: ToolbarProps) {
+export function Toolbar({
+  viewMode,
+  onViewModeChange,
+  onRefresh,
+  loading,
+  count,
+  total,
+}: ToolbarProps) {
+  const filtered = count !== total;
+  const countLabel = filtered
+    ? `${count.toLocaleString()} of ${total.toLocaleString()} records`
+    : `${count.toLocaleString()} ${count === 1 ? 'record' : 'records'}`;
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div
@@ -44,8 +58,10 @@ export function Toolbar({ viewMode, onViewModeChange, onRefresh, loading, count 
         })}
       </div>
 
-      <span className="font-mono text-xs text-muted whitespace-nowrap">
-        {count.toLocaleString()} {count === 1 ? 'record' : 'records'}
+      <span
+        className={`font-mono text-xs whitespace-nowrap ${filtered ? 'text-sky-300' : 'text-muted'}`}
+      >
+        {countLabel}
       </span>
 
       <button

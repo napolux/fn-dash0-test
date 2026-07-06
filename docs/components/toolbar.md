@@ -14,7 +14,8 @@ interface ToolbarProps {
   onViewModeChange: (mode: ViewMode) => void;
   onRefresh: () => void;
   loading: boolean;
-  count: number;
+  count: number; // records shown (after filtering)
+  total: number; // records before filtering
 }
 ```
 
@@ -22,7 +23,7 @@ interface ToolbarProps {
 
 - The toggle is a segmented `role="tablist"` with two tabs (`Flat list`, `Group by service`); the active tab uses `aria-selected`.
 - The refresh button is disabled while `loading` and shows a spinning icon.
-- `count` is the number of currently displayed (filtered) records.
+- The record count reads "`N` records" normally, and switches to a highlighted "`N` of `M` records" whenever a filter is active (`count !== total`), so it's obvious the view is filtered.
 
 Purely presentational — state lives in [`useLogViewState`](../hooks/use-log-view-state.md), owned by [`LogViewer`](./log-viewer.md).
 

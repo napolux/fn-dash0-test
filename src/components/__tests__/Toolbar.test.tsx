@@ -9,6 +9,7 @@ function setup(overrides = {}) {
     onRefresh: vi.fn(),
     loading: false,
     count: 3,
+    total: 3,
     ...overrides,
   };
   render(<Toolbar {...props} />);
@@ -22,9 +23,14 @@ describe('Toolbar', () => {
     expect(onViewModeChange).toHaveBeenCalledWith('grouped');
   });
 
-  it('shows the record count', () => {
-    setup({ count: 42 });
-    expect(screen.getByText(/42 records/)).toBeInTheDocument();
+  it('shows the plain record count when nothing is filtered', () => {
+    setup({ count: 42, total: 42 });
+    expect(screen.getByText('42 records')).toBeInTheDocument();
+  });
+
+  it('shows "N of M" when the list is filtered', () => {
+    setup({ count: 3, total: 42 });
+    expect(screen.getByText('3 of 42 records')).toBeInTheDocument();
   });
 
   it('disables refresh while loading', () => {

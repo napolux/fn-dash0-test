@@ -86,6 +86,7 @@ export function LogViewer() {
             onRefresh={refetch}
             loading={loading}
             count={visibleLogs.length}
+            total={logs.length}
           />
 
           <Card>
