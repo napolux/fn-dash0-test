@@ -26,7 +26,7 @@ const columnHelper = createColumnHelper<FlatLogRecord>();
 function Chevron({ open }: { open: boolean }) {
   return (
     <ChevronRight
-      className={`h-3.5 w-3.5 shrink-0 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
+      className={`size-3.5 shrink-0 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
       aria-hidden
     />
   );

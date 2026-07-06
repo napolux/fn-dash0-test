@@ -40,7 +40,7 @@ function HistogramTooltip({ active, payload }: HistogramTooltipProps) {
         {present.map((group) => (
           <div key={group} className="flex items-center gap-2">
             <span
-              className="h-2 w-2 rounded-sm"
+              className="size-2 rounded-sm"
               style={{ background: SEVERITY_STYLES[group].color }}
             />
             <span className="text-muted">{group}</span>
@@ -136,7 +136,7 @@ export function Histogram({
               } ${enabled ? 'text-muted' : 'text-muted/40'}`}
             >
               <span
-                className="h-2 w-2 rounded-sm"
+                className="size-2 rounded-sm"
                 style={{ background: SEVERITY_STYLES[group].color, opacity: enabled ? 1 : 0.4 }}
               />
               {group}

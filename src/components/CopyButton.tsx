@@ -39,12 +39,12 @@ export function CopyButton({ value, label = 'value', className = '' }: CopyButto
       onClick={handleCopy}
       aria-label={copied ? 'Copied' : `Copy ${label}`}
       title={copied ? 'Copied' : `Copy ${label}`}
-      className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted opacity-60 transition hover:bg-white/[0.06] hover:opacity-100 ${className}`}
+      className={`inline-flex size-5 shrink-0 items-center justify-center rounded text-muted opacity-60 transition hover:bg-white/[0.06] hover:opacity-100 ${className}`}
     >
       {copied ? (
-        <Check className="h-3.5 w-3.5 text-green-400" aria-hidden />
+        <Check className="size-3.5 text-green-400" aria-hidden />
       ) : (
-        <Copy className="h-3.5 w-3.5" aria-hidden />
+        <Copy className="size-3.5" aria-hidden />
       )}
     </button>
   );

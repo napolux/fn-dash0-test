@@ -70,7 +70,7 @@ export function Toolbar({
         disabled={loading}
         className="ml-auto inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden />
+        <RefreshCw className={`size-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden />
         {loading ? 'Loading…' : 'Refresh'}
       </button>
     </div>

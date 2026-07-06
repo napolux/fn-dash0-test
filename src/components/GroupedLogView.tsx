@@ -33,10 +33,10 @@ function GroupHeader({
       className="flex w-full items-center gap-3 bg-surface/80 px-4 py-2.5 text-left transition-colors hover:bg-white/[0.04]"
     >
       <ChevronRight
-        className={`h-3.5 w-3.5 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
+        className={`size-3.5 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
         aria-hidden
       />
-      <span className="h-2 w-2 rounded-full bg-sky-400" aria-hidden />
+      <span className="size-2 rounded-full bg-sky-400" aria-hidden />
       <span className="font-semibold text-foreground">{serviceName}</span>
       {namespace && (
         <span className="font-mono text-xs text-muted">ns:{namespace}</span>
