@@ -4,6 +4,8 @@ A web app for visualizing [OpenTelemetry (OTLP) log records](https://opentelemet
 
 Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**, tested with **Vitest**.
 
+> 🚀 **Live demo:** https://fn-dash0-test-git-main-fnapoletano.vercel.app (deployed on Vercel)
+>
 > 📚 **In-depth documentation** lives in [`docs/`](./docs/README.md) — an application overview plus a page per component, hook, and data module.
 
 ## Features
