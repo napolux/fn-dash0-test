@@ -8,7 +8,7 @@ import {
   unixNanoToMillis,
 } from '@/lib/otlp';
 import type { IExportLogsServiceRequest } from '@/types/otlp';
-import sample from '@/test/fixtures/logs.sample.json';
+import sample from './logs.sample.json';
 
 describe('anyValueToJs', () => {
   it('reads each scalar variant', () => {

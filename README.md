@@ -93,7 +93,7 @@ Filters aren't built yet, but the app is structured so they can be added to the 
 
 Vitest + Testing Library. Coverage focuses on the data-transformation core and the hooks:
 
-- `lib/__tests__/otlp.test.ts` — `AnyValue` conversion (all variants, nested, string ints), `flattenLogs`, severity/timestamp mapping, and a smoke test over a real captured API response (`src/test/fixtures/logs.sample.json`).
+- `lib/__tests__/otlp.test.ts` — `AnyValue` conversion (all variants, nested, string ints), `flattenLogs`, severity/timestamp mapping, and a smoke test over a real captured API response (`src/lib/__tests__/logs.sample.json`).
 - `lib/__tests__/histogram.test.ts` — bucket count/boundaries, empty and zero-span inputs, per-severity tallies.
 - `lib/__tests__/grouping.test.ts` — grouping by resource, counts, namespace disambiguation.
 - `lib/__tests__/viewState.test.ts` — URL (de)serialization round-trips.
