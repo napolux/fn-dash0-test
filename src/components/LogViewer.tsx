@@ -9,6 +9,7 @@ import { Toolbar } from '@/components/Toolbar';
 import { Histogram } from '@/components/Histogram';
 import { LogTable } from '@/components/LogTable';
 import { GroupedLogView } from '@/components/GroupedLogView';
+import { EmptyState } from '@/components/EmptyState';
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -31,6 +32,9 @@ export function LogViewer() {
     (group: SeverityGroup) => update({ severity: toggleSeverity(state.severity, group) }),
     [update, state.severity],
   );
+
+  const hasActiveFilter = (state.severity?.length ?? 0) > 0;
+  const initialLoading = loading && logs.length === 0;
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-6 sm:px-6">
@@ -85,8 +89,22 @@ export function LogViewer() {
           />
 
           <Card>
-            {loading && logs.length === 0 ? (
+            {initialLoading ? (
               <p className="px-4 py-10 text-center text-sm text-muted">Loading logs…</p>
+            ) : visibleLogs.length === 0 ? (
+              hasActiveFilter ? (
+                <EmptyState
+                  title="No logs match the active filter"
+                  description="No records match the selected severities. Clear the filter to see all logs."
+                  action={{ label: 'Clear filter', onClick: () => update({ severity: undefined }) }}
+                />
+              ) : (
+                <EmptyState
+                  title="No logs to show"
+                  description="The API returned no log records for this request."
+                  action={{ label: 'Refresh', onClick: refetch }}
+                />
+              )
             ) : (
               <div className="max-h-[60vh] overflow-auto">
                 {state.viewMode === 'grouped' ? (

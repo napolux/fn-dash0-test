@@ -18,11 +18,15 @@ The top-level **client container**. It owns the data and view state and composes
 
 ## States
 
-- **Error** — shows the message and a "Try again" button wired to `refetch`.
-- **Initial loading** — placeholder text in the histogram and list cards (only when there are no logs yet, so refreshes don't blank the screen).
-- **Loaded** — the full UI; the list card scrolls within a max height.
+The list card resolves to one of four distinct states, so users always know *why* it's empty:
+
+- **Error** — the fetch failed; shows the message and a "Try again" button wired to `refetch`.
+- **Initial loading** — placeholder text (only when there are no logs yet, so refreshes don't blank the screen).
+- **No data** — the request succeeded but returned zero records; [`EmptyState`](./empty-state.md) "No logs to show" with a Refresh action.
+- **Filtered-empty** — logs exist but none match the active severity filter; [`EmptyState`](./empty-state.md) "No logs match the active filter" with a Clear-filter action (`update({ severity: undefined })`).
+- **Loaded** — the full list; the card scrolls within a max height.
 
 ## Related
 
 - Hooks: [`useLogs`](../hooks/use-logs.md), [`useLogViewState`](../hooks/use-log-view-state.md)
-- Children: [`Toolbar`](./toolbar.md), [`Histogram`](./histogram-chart.md), [`LogTable`](./log-table.md), [`GroupedLogView`](./grouped-log-view.md)
+- Children: [`Toolbar`](./toolbar.md), [`Histogram`](./histogram-chart.md), [`LogTable`](./log-table.md), [`GroupedLogView`](./grouped-log-view.md), [`EmptyState`](./empty-state.md)

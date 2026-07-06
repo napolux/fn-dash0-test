@@ -37,6 +37,7 @@ Each doc follows the same shape: **purpose → responsibilities → API/behavior
 - [`LogDetails`](./components/log-details.md) — the expanded-row detail panel.
 - [`GroupedLogView`](./components/grouped-log-view.md) — collapsible per-service sections.
 - [`SeverityBadge`](./components/severity-badge.md) — the color-coded severity pill.
+- [`EmptyState`](./components/empty-state.md) — reusable empty-view message + action.
 
 ---
 
