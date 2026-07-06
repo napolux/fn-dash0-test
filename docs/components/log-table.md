@@ -17,7 +17,8 @@ interface LogTableProps {
 
 ## Behavior
 
-- Three columns via TanStack's column helper: Severity ([`SeverityBadge`](./severity-badge.md) + a chevron), Time ([`formatTimestamp`](../lib/otlp-transforms.md)), and a truncated Body.
+- Three columns via TanStack's column helper: Severity ([`SeverityBadge`](./severity-badge.md) + a chevron), Time, and a truncated Body.
+- The **Time** column shows a compact relative time (`formatRelativeTime`, e.g. "12s ago") with the full absolute timestamp — date, milliseconds, and timezone — on hover (`title`), so scanning is fast but the exact time is one hover away.
 - **Expandable rows** use `getExpandedRowModel` with `getRowCanExpand: () => true`; expansion state is local. Clicking a row toggles it, rendering [`LogDetails`](./log-details.md) in a full-width row beneath.
 - Fixed layout (`table-fixed`) with a sticky header; the Body cell truncates.
 - Empty input renders a "No log records." state.

@@ -12,7 +12,7 @@ import {
 import type { FlatLogRecord } from '@/types/otlp';
 import { SeverityBadge } from '@/components/SeverityBadge';
 import { LogDetails } from '@/components/LogDetails';
-import { formatTimestamp } from '@/lib/format';
+import { formatRelativeTime, formatTimestamp } from '@/lib/format';
 
 interface LogTableProps {
   records: FlatLogRecord[];
@@ -57,8 +57,11 @@ export function LogTable({ records, showHeader = true }: LogTableProps) {
         id: 'time',
         header: 'Time',
         cell: (ctx) => (
-          <span className="font-mono text-xs text-muted whitespace-nowrap">
-            {formatTimestamp(ctx.getValue())}
+          <span
+            className="font-mono text-xs text-muted whitespace-nowrap"
+            title={formatTimestamp(ctx.getValue())}
+          >
+            {formatRelativeTime(ctx.getValue())}
           </span>
         ),
       }),

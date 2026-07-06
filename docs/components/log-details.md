@@ -19,7 +19,7 @@ interface LogDetailsProps {
 - **Body** — rendered in a scrollable `<pre>`. If the body looks like JSON it is pretty-printed (parsed and re-stringified with indentation); otherwise shown verbatim.
 - **Log attributes** — a key/value grid of `record.attributes`; shows an italic "No attributes" when empty.
 - **Resource** — the parent service's attributes (`record.resource.attributes`), headed by the service name.
-- **Record metadata** — derived fields: formatted timestamp, `severityNumber`, `severityText`, and scope name/version when present.
+- **Record metadata** — derived fields: the absolute timestamp (with milliseconds and timezone), `severityNumber`, `severityText`, and scope name/version when present.
 
 Presentational; receives one already-flattened [`FlatLogRecord`](../types/otlp-types.md).
 
