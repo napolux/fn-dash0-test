@@ -39,6 +39,7 @@ Each doc follows the same shape: **purpose → responsibilities → API/behavior
 - [`SeverityBadge`](./components/severity-badge.md) — the color-coded severity pill.
 - [`EmptyState`](./components/empty-state.md) — reusable empty-view message + action.
 - [`CopyButton`](./components/copy-button.md) — copy-to-clipboard icon button.
+- [Skeletons](./components/skeleton.md) — loading placeholders for the list and histogram.
 
 ---
 

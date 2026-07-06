@@ -10,6 +10,7 @@ import { Histogram } from '@/components/Histogram';
 import { LogTable } from '@/components/LogTable';
 import { GroupedLogView } from '@/components/GroupedLogView';
 import { EmptyState } from '@/components/EmptyState';
+import { HistogramSkeleton, LogListSkeleton } from '@/components/Skeleton';
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -65,10 +66,8 @@ export function LogViewer() {
                 Log volume over time
               </h2>
             </div>
-            {loading && logs.length === 0 ? (
-              <div className="flex h-[140px] items-center justify-center text-sm text-muted">
-                Loading histogram…
-              </div>
+            {initialLoading ? (
+              <HistogramSkeleton />
             ) : (
               // The histogram plots all logs and doubles as the severity filter, so its
               // legend stays a stable control; the list below reflects the active filters.
@@ -91,7 +90,7 @@ export function LogViewer() {
 
           <Card>
             {initialLoading ? (
-              <p className="px-4 py-10 text-center text-sm text-muted">Loading logs…</p>
+              <LogListSkeleton />
             ) : visibleLogs.length === 0 ? (
               hasActiveFilter ? (
                 <EmptyState

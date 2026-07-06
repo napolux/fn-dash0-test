@@ -94,6 +94,13 @@ describe('LogViewer', () => {
     expect(screen.getByRole('button', { name: /payment/ })).toBeInTheDocument();
   });
 
+  it('shows skeleton placeholders during the initial load', () => {
+    h.logsReturn = { logs: [], loading: true, error: null, refetch: vi.fn() };
+    render(<LogViewer />);
+    expect(screen.getByTestId('log-list-skeleton')).toBeInTheDocument();
+    expect(screen.getByTestId('histogram-skeleton')).toBeInTheDocument();
+  });
+
   it('shows a no-data empty state when the API returns no logs', () => {
     h.logsReturn = { logs: [], loading: false, error: null, refetch: vi.fn() };
     render(<LogViewer />);

@@ -21,7 +21,7 @@ The top-level **client container**. It owns the data and view state and composes
 The list card resolves to one of four distinct states, so users always know *why* it's empty:
 
 - **Error** — the fetch failed; shows the message and a "Try again" button wired to `refetch`.
-- **Initial loading** — placeholder text (only when there are no logs yet, so refreshes don't blank the screen).
+- **Initial loading** — [skeleton](./skeleton.md) rows and a skeleton histogram, shown only when there are no logs yet. A refresh keeps the current list mounted (it doesn't fall back to skeletons), so scroll position is preserved and the screen never blanks.
 - **No data** — the request succeeded but returned zero records; [`EmptyState`](./empty-state.md) "No logs to show" with a Refresh action.
 - **Filtered-empty** — logs exist but none match the active severity filter; [`EmptyState`](./empty-state.md) "No logs match the active filter" with a Clear-filter action (`update({ severity: undefined })`).
 - **Loaded** — the full list; the card scrolls within a max height.
