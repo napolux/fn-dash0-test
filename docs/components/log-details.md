@@ -16,8 +16,8 @@ interface LogDetailsProps {
 
 ## Behavior
 
-- **Body** — rendered in a scrollable `<pre>`. If the body looks like JSON it is pretty-printed (parsed and re-stringified with indentation); otherwise shown verbatim.
-- **Log attributes** — a key/value grid of `record.attributes`; shows an italic "No attributes" when empty.
+- **Body** — rendered in a scrollable `<pre>`. If the body looks like JSON it is pretty-printed (parsed and re-stringified with indentation); otherwise shown verbatim. A [`CopyButton`](./copy-button.md) in the section header copies the raw body.
+- **Log attributes** — a key/value grid of `record.attributes`; each value has a [`CopyButton`](./copy-button.md). Shows an italic "No attributes" when empty.
 - **Resource** — the parent service's attributes (`record.resource.attributes`), headed by the service name.
 - **Record metadata** — derived fields: the absolute timestamp (with milliseconds and timezone), `severityNumber`, `severityText`, and scope name/version when present.
 

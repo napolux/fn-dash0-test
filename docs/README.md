@@ -38,6 +38,7 @@ Each doc follows the same shape: **purpose → responsibilities → API/behavior
 - [`GroupedLogView`](./components/grouped-log-view.md) — collapsible per-service sections.
 - [`SeverityBadge`](./components/severity-badge.md) — the color-coded severity pill.
 - [`EmptyState`](./components/empty-state.md) — reusable empty-view message + action.
+- [`CopyButton`](./components/copy-button.md) — copy-to-clipboard icon button.
 
 ---
 

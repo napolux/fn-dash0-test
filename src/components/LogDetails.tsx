@@ -1,5 +1,6 @@
 import type { FlatAttribute, FlatLogRecord } from '@/types/otlp';
 import { formatTimestamp } from '@/lib/format';
+import { CopyButton } from '@/components/CopyButton';
 
 interface LogDetailsProps {
   record: FlatLogRecord;
@@ -25,17 +26,31 @@ function AttributeGrid({ attributes }: { attributes: FlatAttribute[] }) {
       {attributes.map((attr) => (
         <div key={attr.key} className="contents">
           <dt className="font-mono text-sky-300/90 whitespace-nowrap">{attr.key}</dt>
-          <dd className="font-mono text-foreground/90 break-all">{attr.value || '—'}</dd>
+          <dd className="flex items-start gap-1.5 font-mono text-foreground/90">
+            <span className="min-w-0 break-all">{attr.value || '—'}</span>
+            {attr.value && <CopyButton value={attr.value} label={attr.key} />}
+          </dd>
         </div>
       ))}
     </dl>
   );
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  action,
+  children,
+}: {
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-2">
-      <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted">{title}</h4>
+      <div className="flex items-center justify-between gap-2">
+        <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted">{title}</h4>
+        {action}
+      </div>
       {children}
     </div>
   );
@@ -54,7 +69,10 @@ export function LogDetails({ record }: LogDetailsProps) {
   return (
     <div className="grid gap-6 border-l-2 border-sky-500/40 bg-black/20 p-4 md:grid-cols-2">
       <div className="space-y-4 md:col-span-2">
-        <Section title="Body">
+        <Section
+          title="Body"
+          action={record.body ? <CopyButton value={record.body} label="body" /> : undefined}
+        >
           <pre className="max-h-64 overflow-auto rounded bg-black/40 p-3 font-mono text-xs leading-relaxed text-foreground/90 whitespace-pre-wrap break-words">
             {prettyBody(record.body) || '—'}
           </pre>
