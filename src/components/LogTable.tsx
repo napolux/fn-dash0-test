@@ -67,7 +67,7 @@ export function LogTable({ records, showHeader = true }: LogTableProps) {
         id: 'body',
         header: 'Body',
         cell: (ctx) => (
-          <span className="block max-w-0 truncate font-mono text-xs text-foreground/90">
+          <span className="block truncate font-mono text-xs text-foreground/90">
             {ctx.getValue() || '—'}
           </span>
         ),
