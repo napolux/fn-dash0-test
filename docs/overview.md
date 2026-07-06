@@ -58,6 +58,8 @@ Three layers:
 
 Vitest + Testing Library, focused on the data core and hooks. See each part's doc for its test coverage, and the [root README](../README.md#testing) for the file map.
 
-## Roadmap: URL-addressable filters
+## Filtering & URL-addressable state
 
-Filters aren't implemented yet, but the app is structured so they can be added to the page URL without re-plumbing. The contract already exists and is unit-tested — see [View state & URL contract](./lib/view-state.md).
+View state — view mode plus the **severity** filter — lives entirely in the URL query string, so any view is shareable and reload-safe. The [`Histogram`](./components/histogram-chart.md) legend toggles severities, flowing through [`useLogViewState`](./hooks/use-log-view-state.md) → the URL → [`selectLogs`](./lib/view-state.md).
+
+**Next filters:** `service`, and a time range (`from`/`to`) — already reserved in the [state contract](./lib/view-state.md) and round-tripping through the URL, so they slot into `selectLogs` without re-plumbing.

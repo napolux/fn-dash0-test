@@ -9,6 +9,28 @@ vi.mock('@/components/Histogram', () => ({
   Histogram: () => <div data-testid="histogram" />,
 }));
 
+// Back the view state with local React state so the test doesn't need a Next router.
+// The real hook's URL wiring is covered in hooks/__tests__/useLogViewState.test.ts.
+vi.mock('@/hooks/useLogViewState', async () => {
+  const { useState, useCallback } = await import('react');
+  return {
+    useLogViewState: () => {
+      const [state, setState] = useState<{ viewMode: 'flat' | 'grouped' }>({
+        viewMode: 'flat',
+      });
+      const update = useCallback(
+        (patch: Record<string, unknown>) => setState((s) => ({ ...s, ...patch })),
+        [],
+      );
+      const setViewMode = useCallback(
+        (viewMode: 'flat' | 'grouped') => setState((s) => ({ ...s, viewMode })),
+        [],
+      );
+      return { state, update, setViewMode };
+    },
+  };
+});
+
 const logs: FlatLogRecord[] = [
   {
     id: '0-0-0',

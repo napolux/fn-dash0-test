@@ -9,9 +9,12 @@ The top-level **client container**. It owns the data and view state and composes
 ## Responsibilities
 
 - Calls [`useLogs`](../hooks/use-logs.md) for `{ logs, loading, error, refetch }`.
-- Calls [`useLogViewState`](../hooks/use-log-view-state.md) for `{ state, setViewMode }`.
-- Derives the displayed records via [`selectLogs(logs, state)`](../lib/view-state.md).
+- Calls [`useLogViewState`](../hooks/use-log-view-state.md) for `{ state, setViewMode, update }`.
+- Derives the displayed records via [`selectLogs(logs, state)`](../lib/view-state.md), and provides the severity-toggle handler (via [`toggleSeverity`](../lib/view-state.md)).
 - Renders, top to bottom: a header, the [`Histogram`](./histogram-chart.md) card, the [`Toolbar`](./toolbar.md), and a card containing either the [`LogTable`](./log-table.md) (flat) or the [`GroupedLogView`](./grouped-log-view.md).
+- Passes the **unfiltered** logs to the histogram (so its legend stays a stable filter control) and the **filtered** logs to the list + count.
+
+> Rendered inside a `<Suspense>` boundary in `app/page.tsx`, required because [`useLogViewState`](../hooks/use-log-view-state.md) reads `useSearchParams`.
 
 ## States
 

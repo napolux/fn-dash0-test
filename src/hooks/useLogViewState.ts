@@ -1,7 +1,13 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
-import { DEFAULT_VIEW_STATE, type LogViewState, type ViewMode } from '@/lib/viewState';
+import { useCallback, useMemo } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  parseViewState,
+  serializeViewState,
+  type LogViewState,
+  type ViewMode,
+} from '@/lib/viewState';
 
 export interface UseLogViewState {
   state: LogViewState;
@@ -11,27 +17,39 @@ export interface UseLogViewState {
 }
 
 /**
- * Single owner of the log view's state. Components read and mutate view state only
- * through here, never touching the URL directly.
+ * Single owner of the log view's state, backed by the URL query string so views are
+ * shareable and survive reloads. Components read and mutate view state only through
+ * this hook, never touching the URL directly.
  *
- * Today the state lives in React state. To make it URL-addressable later, swap the
- * internals to `useSearchParams()` (seed via `parseViewState`) + `router.replace(
- * pathname + '?' + serializeViewState(next))` — no caller changes. `serializeViewState`
- * / `parseViewState` in `@/lib/viewState` already define that contract.
+ * State is derived from `useSearchParams` via `parseViewState`; mutations serialize
+ * back with `serializeViewState` and `router.replace` (no history spam, no scroll
+ * jump). Consumers of this hook must be rendered inside a `<Suspense>` boundary, as
+ * `useSearchParams` requires.
  */
-export function useLogViewState(
-  initial: LogViewState = DEFAULT_VIEW_STATE,
-): UseLogViewState {
-  const [state, setState] = useState<LogViewState>(initial);
+export function useLogViewState(): UseLogViewState {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const update = useCallback((patch: Partial<LogViewState>) => {
-    setState((prev) => ({ ...prev, ...patch }));
-  }, []);
-
-  const setViewMode = useCallback(
-    (viewMode: ViewMode) => update({ viewMode }),
-    [update],
+  const state = useMemo(
+    () => parseViewState(new URLSearchParams(searchParams.toString())),
+    [searchParams],
   );
+
+  const commit = useCallback(
+    (next: LogViewState) => {
+      const query = serializeViewState(next).toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [router, pathname],
+  );
+
+  const update = useCallback(
+    (patch: Partial<LogViewState>) => commit({ ...state, ...patch }),
+    [commit, state],
+  );
+
+  const setViewMode = useCallback((viewMode: ViewMode) => update({ viewMode }), [update]);
 
   return useMemo(() => ({ state, update, setViewMode }), [state, update, setViewMode]);
 }

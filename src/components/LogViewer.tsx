@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useLogs } from '@/hooks/useLogs';
 import { useLogViewState } from '@/hooks/useLogViewState';
-import { selectLogs } from '@/lib/viewState';
+import { selectLogs, toggleSeverity } from '@/lib/viewState';
+import type { SeverityGroup } from '@/types/otlp';
 import { Toolbar } from '@/components/Toolbar';
 import { Histogram } from '@/components/Histogram';
 import { LogTable } from '@/components/LogTable';
@@ -22,9 +23,14 @@ function Card({ children, className = '' }: { children: React.ReactNode; classNa
 /** Top-level client container: owns data + view state and composes the viewer. */
 export function LogViewer() {
   const { logs, loading, error, refetch } = useLogs();
-  const { state, setViewMode } = useLogViewState();
+  const { state, setViewMode, update } = useLogViewState();
 
   const visibleLogs = useMemo(() => selectLogs(logs, state), [logs, state]);
+
+  const handleToggleSeverity = useCallback(
+    (group: SeverityGroup) => update({ severity: toggleSeverity(state.severity, group) }),
+    [update, state.severity],
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-6 sm:px-6">
@@ -60,7 +66,13 @@ export function LogViewer() {
                 Loading histogram…
               </div>
             ) : (
-              <Histogram records={visibleLogs} />
+              // The histogram plots all logs and doubles as the severity filter, so its
+              // legend stays a stable control; the list below reflects the active filters.
+              <Histogram
+                records={logs}
+                selectedSeverities={state.severity}
+                onToggleSeverity={handleToggleSeverity}
+              />
             )}
           </Card>
 

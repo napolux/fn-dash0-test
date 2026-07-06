@@ -22,9 +22,13 @@ interface ToolbarProps {
 
 - The toggle is a segmented `role="tablist"` with two tabs (`Flat list`, `Group by service`); the active tab uses `aria-selected`.
 - The refresh button is disabled while `loading` and shows a spinning icon.
-- `count` is the number of currently displayed records.
+- `count` is the number of currently displayed (filtered) records.
 
 Purely presentational — state lives in [`useLogViewState`](../hooks/use-log-view-state.md), owned by [`LogViewer`](./log-viewer.md).
+
+## Testing
+
+`src/components/__tests__/Toolbar.test.tsx` covers the tab emitting the view mode, the record count, and refresh disabled while loading.
 
 ## Related
 

@@ -44,7 +44,7 @@ export function Toolbar({ viewMode, onViewModeChange, onRefresh, loading, count 
         })}
       </div>
 
-      <span className="font-mono text-xs text-muted">
+      <span className="font-mono text-xs text-muted whitespace-nowrap">
         {count.toLocaleString()} {count === 1 ? 'record' : 'records'}
       </span>
 

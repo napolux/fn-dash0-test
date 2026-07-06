@@ -10,6 +10,10 @@ import { formatClock, formatRange } from '@/lib/format';
 interface HistogramProps {
   records: FlatLogRecord[];
   bucketCount?: number;
+  /** Enabled severities (inclusion filter). Empty/undefined = all shown. */
+  selectedSeverities?: SeverityGroup[];
+  /** When provided, legend items become toggles for the severity filter. */
+  onToggleSeverity?: (group: SeverityGroup) => void;
 }
 
 interface ChartDatum extends Record<SeverityGroup, number> {
@@ -49,7 +53,16 @@ function HistogramTooltip({ active, payload }: HistogramTooltipProps) {
 }
 
 /** Time-bucketed log volume as a severity-stacked bar chart (X: time, Y: count). */
-export function Histogram({ records, bucketCount = 48 }: HistogramProps) {
+export function Histogram({
+  records,
+  bucketCount = 48,
+  selectedSeverities,
+  onToggleSeverity,
+}: HistogramProps) {
+  const hasSelection = (selectedSeverities?.length ?? 0) > 0;
+  const isEnabled = (group: SeverityGroup) =>
+    !hasSelection || selectedSeverities!.includes(group);
+
   const { data, activeGroups } = useMemo(() => {
     const buckets = buildHistogram(records, bucketCount);
     const chartData: ChartDatum[] = buckets.map((bucket) => ({
@@ -94,29 +107,42 @@ export function Histogram({ records, bucketCount = 48 }: HistogramProps) {
               content={<HistogramTooltip />}
               cursor={{ fill: 'rgba(255,255,255,0.05)' }}
             />
-            {activeGroups.map((group, index) => (
+            {activeGroups.filter(isEnabled).map((group, index, shown) => (
               <Bar
                 key={group}
                 dataKey={group}
                 stackId="severity"
                 fill={SEVERITY_STYLES[group].color}
-                radius={index === activeGroups.length - 1 ? [2, 2, 0, 0] : undefined}
+                radius={index === shown.length - 1 ? [2, 2, 0, 0] : undefined}
                 isAnimationActive={false}
               />
             ))}
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex flex-wrap gap-x-4 gap-y-1">
-        {activeGroups.map((group) => (
-          <span key={group} className="flex items-center gap-1.5 text-[11px] text-muted">
-            <span
-              className="h-2 w-2 rounded-sm"
-              style={{ background: SEVERITY_STYLES[group].color }}
-            />
-            {group}
-          </span>
-        ))}
+      <div className="flex flex-wrap gap-x-2 gap-y-1">
+        {activeGroups.map((group) => {
+          const enabled = isEnabled(group);
+          return (
+            <button
+              key={group}
+              type="button"
+              onClick={() => onToggleSeverity?.(group)}
+              disabled={!onToggleSeverity}
+              aria-pressed={hasSelection ? enabled : undefined}
+              title={onToggleSeverity ? `Toggle ${group}` : undefined}
+              className={`flex items-center gap-1.5 rounded px-1.5 py-0.5 text-[11px] transition-opacity ${
+                onToggleSeverity ? 'cursor-pointer hover:bg-white/[0.05]' : 'cursor-default'
+              } ${enabled ? 'text-muted' : 'text-muted/40'}`}
+            >
+              <span
+                className="h-2 w-2 rounded-sm"
+                style={{ background: SEVERITY_STYLES[group].color, opacity: enabled ? 1 : 0.4 }}
+              />
+              {group}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ Built with **Next.js (App Router) · React · TypeScript · Tailwind CSS**, test
 - **Log list** — a table of Severity / Time / Body. Any row expands to reveal the full body plus every log, resource, and scope attribute.
 - **Histogram** — log volume over time as a severity-stacked bar chart (X: time, Y: count) with a per-bucket breakdown tooltip.
 - **Group by service** — a toggle that flips between a flat list and a view grouped by parent resource (service), with collapsible sections.
+- **Severity filter** — click the histogram legend to filter by severity. The filter and view mode live in the URL, so any view is shareable and reload-safe.
 
 ## Getting started
 
@@ -84,14 +85,14 @@ src/
 - **Server-side proxy** rather than fetching the upstream from the browser — CORS-safe and mockable.
 - **Hand-written OTLP types** instead of protobuf codegen — a small, precise subset of exactly what the API returns.
 
-### URL-addressable filters (designed, not yet implemented)
+### URL-addressable state
 
-Filters aren't built yet, but the app is structured so they can be added to the page URL without re-plumbing:
+View mode and filters live in the URL, so views are shareable and reload-safe:
 
-- All view/filter state lives in one serializable `LogViewState` (only primitives, so it round-trips through `URLSearchParams`). `viewMode` is wired today; `severity` / `service` / `search` / `from` / `to` are reserved.
-- `useLogViewState` is the **only** owner of that state — no component touches the URL directly. Swapping its internals to `useSearchParams()` + `router.replace()` is a one-file change.
-- `serializeViewState` / `parseViewState` (in `lib/viewState.ts`) already lock the URL contract and are unit-tested.
-- `selectLogs(records, state)` is the single seam where filtering will live (a pass-through today).
+- All view/filter state is one serializable `LogViewState` (only primitives, so it round-trips through `URLSearchParams`). `viewMode` and `severity` are wired to the UI; `service` / `from` / `to` are reserved and already round-trip.
+- `useLogViewState` is the **only** owner of that state — no component touches the URL directly. It derives state from `useSearchParams()` and writes changes with `router.replace()`.
+- `serializeViewState` / `parseViewState` (in `lib/viewState.ts`) define the URL contract and are unit-tested.
+- `selectLogs(records, state)` is the single filtering seam (severity today); new filters slot in here without touching callers.
 
 ## Testing
 
@@ -100,6 +101,8 @@ Vitest + Testing Library. Coverage focuses on the data-transformation core and t
 - `lib/__tests__/otlp.test.ts` — `AnyValue` conversion (all variants, nested, string ints), `flattenLogs`, severity/timestamp mapping, and a smoke test over a real captured API response (`src/lib/__tests__/logs.sample.json`).
 - `lib/__tests__/histogram.test.ts` — bucket count/boundaries, empty and zero-span inputs, per-severity tallies.
 - `lib/__tests__/grouping.test.ts` — grouping by resource, counts, namespace disambiguation.
-- `lib/__tests__/viewState.test.ts` — URL (de)serialization round-trips.
+- `lib/__tests__/viewState.test.ts` — URL (de)serialization round-trips, `selectLogs` severity filtering, and `toggleSeverity`.
 - `hooks/__tests__/useLogs.test.ts` — success/error/refetch/abort with a mocked `fetch`.
+- `hooks/__tests__/useLogViewState.test.ts` — deriving state from the URL and writing it back, with mocked `next/navigation`.
 - `components/__tests__/LogTable.test.tsx`, `components/__tests__/LogViewer.test.tsx` — row expansion reveals attributes; the toggle switches flat ↔ grouped.
+- `components/__tests__/Toolbar.test.tsx`, `components/__tests__/Histogram.test.tsx` — the view toggle emits changes; the histogram legend toggles severities.
