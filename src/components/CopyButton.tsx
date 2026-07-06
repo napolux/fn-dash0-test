@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { Check, Copy } from 'lucide-react';
 
 interface CopyButtonProps {
   value: string;
@@ -41,14 +42,9 @@ export function CopyButton({ value, label = 'value', className = '' }: CopyButto
       className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted opacity-60 transition hover:bg-white/[0.06] hover:opacity-100 ${className}`}
     >
       {copied ? (
-        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-green-400" aria-hidden>
-          <path d="M13 4.5L6.5 11 3 7.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <Check className="h-3.5 w-3.5 text-green-400" aria-hidden />
       ) : (
-        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" aria-hidden>
-          <rect x="5.5" y="5.5" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.3" />
-          <path d="M3.5 10.5V4A1.5 1.5 0 0 1 5 2.5h5.5" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-        </svg>
+        <Copy className="h-3.5 w-3.5" aria-hidden />
       )}
     </button>
   );

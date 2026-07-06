@@ -1,6 +1,7 @@
 'use client';
 
 import { Fragment, useMemo, useState } from 'react';
+import { ChevronRight } from 'lucide-react';
 import {
   createColumnHelper,
   flexRender,
@@ -24,13 +25,10 @@ const columnHelper = createColumnHelper<FlatLogRecord>();
 
 function Chevron({ open }: { open: boolean }) {
   return (
-    <svg
-      viewBox="0 0 16 16"
+    <ChevronRight
       className={`h-3.5 w-3.5 shrink-0 text-muted transition-transform ${open ? 'rotate-90' : ''}`}
       aria-hidden
-    >
-      <path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.75" />
-    </svg>
+    />
   );
 }
 

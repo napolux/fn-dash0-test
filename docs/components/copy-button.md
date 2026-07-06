@@ -18,7 +18,7 @@ interface CopyButtonProps {
 
 ## Behavior
 
-- On click, writes `value` via `navigator.clipboard.writeText`, then flips the icon to a check and the accessible label to "Copied" for ~1.2s.
+- On click, writes `value` via `navigator.clipboard.writeText`, then flips the icon (lucide-react `Copy` → `Check`) and the accessible label to "Copied" for ~1.2s.
 - The reset timer is cleared on unmount; clipboard failures are swallowed silently.
 - Accessible label is `Copy {label}` (e.g. "Copy db.system"), becoming "Copied" after success.
 

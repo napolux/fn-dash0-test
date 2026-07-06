@@ -1,5 +1,6 @@
 'use client';
 
+import { RefreshCw } from 'lucide-react';
 import type { ViewMode } from '@/lib/viewState';
 
 interface ToolbarProps {
@@ -69,20 +70,7 @@ export function Toolbar({
         disabled={loading}
         className="ml-auto inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <svg
-          viewBox="0 0 16 16"
-          className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`}
-          aria-hidden
-        >
-          <path
-            d="M13.65 8a5.65 5.65 0 1 1-1.66-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-          <path d="M13 1.5V5H9.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden />
         {loading ? 'Loading…' : 'Refresh'}
       </button>
     </div>
